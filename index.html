@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>閻語森林 | Moirai Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Noto+Serif+TC:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --primary-gold: #d4af37; 
+            --bg-dark: #0d0d26; 
+            --bg-panel: rgba(22, 24, 60, 0.7);
+            --buy-gold: #fcc200;
+        }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: radial-gradient(circle at top, #1e1b4b 0%, #0d0d26 100%);
+            background-attachment: fixed;
+            color: #f0f0f0;
+            margin: 0; padding: 0;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .serif { font-family: 'Noto Serif TC', serif; }
+        .content-container { width: 100%; max-width: 500px; margin: 0 auto; }
+        @media (min-width: 768px) { .content-container { max-width: 850px; } }
+
+        header {
+            background-color: rgba(18, 18, 53, 0.95);
+            border-bottom-left-radius: 3rem; border-bottom-right-radius: 3rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            z-index: 50; backdrop-filter: blur(15px);
+        }
+
+        .nav-btn { 
+            transition: all 0.3s; opacity: 0.3; padding-bottom: 10px; 
+            border-bottom: 3px solid transparent; font-size: 13px;
+            font-weight: bold; white-space: nowrap; background: none; border: none;
+        }
+        .nav-btn.active { opacity: 1; color: var(--primary-gold); border-bottom: 3px solid var(--primary-gold); }
+
+        .glass-card { background: var(--bg-panel); border-radius: 2rem; border: 1px solid rgba(255, 255, 255, 0.12); backdrop-filter: blur(15px); }
+        .animate-up { animation: slideUp 0.6s ease-out forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .safety-rule { background: rgba(212, 175, 55, 0.05); border-left: 6px solid var(--primary-gold); border-radius: 1rem; }
+        .alert-red { border-left-color: #ff5252; background: rgba(255, 82, 82, 0.05); }
+
+        .quiz-question { margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 25px; text-align: left; }
+        .options-group { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .option-label { display: block; padding: 10px 2px; background: rgba(255,255,255,0.05); border-radius: 10px; cursor: pointer; font-size: 11px; text-align: center; transition: 0.3s; }
+        input:checked + .option-label { background: var(--primary-gold); color: #000; font-weight: bold; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
+
+        .result-list { list-style-type: none; padding: 0; }
+        .result-list li { position: relative; padding-left: 1.5rem; margin-bottom: 0.8rem; color: rgba(255,255,255,0.8); font-size: 0.85rem; line-height: 1.6; }
+        .result-list li::before { content: '✦'; position: absolute; left: 0; color: var(--primary-gold); }
+        
+        .disclaimer-box { padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.05); text-align: left; margin-top: 3rem; }
+        .disclaimer-text { font-size: 10px; color: rgba(255,255,255,0.3); line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+    <div class="content-container">
+        <header class="p-8 text-center pt-12 sticky top-0 z-50">
+            <h1 class="serif text-3xl md:text-5xl tracking-[0.4em] text-[#d4af37] mb-2">閻語森林</h1>
+            <p class="text-[10px] md:text-xs opacity-40 tracking-[0.3em] uppercase">Moirai Studio</p>
+            <nav class="flex justify-between mt-10 px-2 md:px-8">
+                <button onclick="switchPage('oracle')" id="nav-oracle" class="nav-btn active">靈魂提問</button>
+                <button onclick="switchPage('guide')" id="nav-guide" class="nav-btn">使用推薦</button>
+                <button onclick="switchPage('safety')" id="nav-safety" class="nav-btn">安心守則</button>
+                <button onclick="switchPage('balance')" id="nav-balance" class="nav-btn">生活平衡檢測</button>
+                <button onclick="switchPage('offer')" id="nav-offer" class="nav-btn">命定優惠</button>
+            </nav>
+        </header>
+
+        <main class="px-6 md:px-0 pt-16 pb-32">
+
+            <div id="page-oracle" class="page-content animate-up text-center">
+                <h2 class="text-[#fcc200] serif text-3xl md:text-5xl mb-10 tracking-widest">心靈精油靈魂提問</h2>
+                <p class="text-xl md:text-2xl opacity-80 mb-12">請深呼吸三次，默念：「請植物能量引導我，看見內在的聲音。」</p>
+
+                <div class="relative w-[280px] h-[280px] md:w-[400px] md:h-[400px] mx-auto mb-12">
+                    <div class="absolute top-[-20px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[15px] border-l-transparent border-r-[15px] border-r-transparent border-t-[30px] border-t-[#d4af37] z-40"></div>
+                    <div id="wheel" class="w-full h-full rounded-full border-4 border-[#d4af37] transition-transform duration-[4s] ease-[cubic-bezier(0.15,0,0.15,1)] shadow-2xl" style="background: conic-gradient(#ffb3ba 0deg 32.7deg, #ffdfba 32.7deg 65.4deg, #ffffba 65.4deg 98.1deg, #baffc9 98.1deg 130.8deg, #bae1ff 130.8deg 163.5deg, #eecbff 163.5deg 196.2deg, #ffd1dc 196.2deg 228.9deg, #c1e7ff 228.9deg 261.6deg, #d4f0f0 261.6deg 294.3deg, #f9e2ff 294.3deg 327deg, #fff0d4 327deg 360deg);"></div>
+                </div>
+
+                <button onclick="spinWheel()" class="bg-gradient-to-r from-[#d4af37] to-[#b8860b] text-white px-12 py-4 rounded-full font-bold text-lg mb-12 active:scale-95 transition-all">點我抽籤</button>
+
+                <div id="result-box" class="hidden glass-card p-10 border-l-8 border-[#d4af37] mb-12 text-left animate-up">
+                    <h2 id="res-name" class="serif text-2xl md:text-3xl text-[#d4af37] mb-4"></h2>
+                    <p id="res-energy" class="text-base text-[#fcc200] font-bold mb-4"></p>
+                    <p id="res-msg" class="text-lg opacity-90 leading-relaxed mb-8"></p>
+                    <div id="res-question" class="text-[#ffeb3b] italic text-base border-y border-white/10 py-8 mb-10 leading-relaxed"></div>
+                    <div class="space-y-12 text-sm">
+                        <div><p class="text-[#d4af37] font-bold mb-3 underline underline-offset-8">🌟 建議用法：</p><p id="res-usage" class="opacity-80 leading-relaxed"></p></div>
+                        <div class="bg-black/40 p-8 rounded-3xl border border-blue-500/20 shadow-inner"><p class="text-blue-300 font-bold mb-4 text-base">💡 芳療小科普：</p><p id="res-science" class="text-blue-100/70 leading-relaxed"></p></div>
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mb-16">
+                    <a href="https://www.facebook.com/share/1AcfEpFxBM/" target="_blank" class="flex-1 p-6 rounded-2xl bg-blue-600/10 border border-blue-500/10 text-center hover:bg-blue-600/20 transition-all">
+                        <p class="text-blue-400 font-bold text-xs mb-1">更多心靈精油用法</p><p class="text-white font-bold text-sm">請追蹤Aum</p>
+                    </a>
+                    <a href="https://www.instagram.com/moirai_world" target="_blank" class="flex-1 p-6 rounded-2xl bg-pink-600/10 border border-pink-500/10 text-center hover:bg-pink-600/20 transition-all">
+                        <p class="text-pink-400 font-bold text-xs mb-1">本網頁由閻語森林提供</p><p class="text-white font-bold text-sm">歡迎追蹤</p>
+                    </a>
+                </div>
+                
+                <div class="disclaimer-box">
+                    <p class="font-bold text-white/40 text-[10px] mb-1">【 免責聲明 】</p>
+                    <p class="disclaimer-text">本網頁提供之資訊僅供參考，旨在提供生活品質支持。精油與營養補充品非藥物，不可取代專業醫療診斷。若有健康疑慮請諮詢醫療專業意見。</p>
+                </div>
+            </div>
+
+            <div id="page-guide" class="page-content hidden text-center animate-up">
+                <h2 class="serif text-3xl text-[#d4af37] mb-10 tracking-widest">身心全應用推薦</h2>
+                <div class="space-y-6" id="guide-list"></div>
+            </div>
+
+            <div id="page-safety" class="page-content hidden text-center">
+                <h2 class="serif text-3xl text-[#d4af37] mb-10 tracking-widest">專業安心守則</h2>
+                <div class="glass-card p-8 mb-8 border-t-4 border-[#d4af37]">
+                    <h3 class="serif text-xl text-[#fcc200] mb-2 underline underline-offset-8">LLP 萬用黃金配方</h3>
+                    <p class="text-sm text-[#d4af37] font-bold mb-6">檸檬 Lemon + 薰衣草 Lavender + 薄荷 Peppermint</p>
+                    <div class="grid grid-cols-2 gap-4 text-left">
+                        <div class="bg-black/30 p-5 rounded-2xl"><p class="text-xs text-white/70 font-bold mb-2">國小兒童版 (10ml)</p><p class="text-base font-bold text-white">各 1 滴</p><p class="text-[10px] opacity-30 mt-2">其餘用 V-6 植物油補滿</p></div>
+                        <div class="bg-black/30 p-5 rounded-2xl"><p class="text-xs text-white/70 font-bold mb-2">一般成人版 (10ml)</p><p class="text-base font-bold text-white">各 3 滴</p><p class="text-[10px] opacity-30 mt-2">其餘用 V-6 植物油補滿</p></div>
+                    </div>
+                </div>
+                <div class="space-y-4 text-left">
+                    <div class="safety-rule p-6"><h4 class="font-bold text-[#d4af37] mb-3 text-sm flex items-center gap-2">☀️ 光敏性安全聲明</h4><p class="text-xs opacity-70 leading-relaxed">柑橘類精油含有「呋喃香豆素」，塗抹於肌膚後若暴露於紫外線下，可能導致肌膚黑色素沉澱。使用後 <b class="text-[#fcc200]">12-24 小時內</b> 應嚴格避免陽光直射。</p></div>
+                    <div class="safety-rule alert-red p-6"><h4 class="font-bold text-[#ff5252] mb-3 text-sm">🚨 緊急意外處置方法</h4><p class="text-xs opacity-70 leading-relaxed">不慎誤入眼睛或導致紅腫：禁用水沖洗。請立即取大量 <b>V-6 植物油</b> 塗抹稀釋溶解，再用乾淨紙巾輕拭。</p></div>
+                </div>
+            </div>
+
+            <div id="page-balance" class="page-content hidden text-center animate-up">
+                <h2 class="serif text-3xl text-[#d4af37] mb-10 tracking-widest">生活平衡檢測</h2>
+                <div class="glass-card p-8">
+                    <div id="quiz-container"></div>
+                    <div class="p-6 bg-black/40 rounded-2xl border border-white/5 text-left mb-8">
+                        <p class="font-bold mb-1 text-white/40 text-[10px]">【 檢測免責聲明 】</p>
+                        <p class="text-[10px] text-white/20 leading-relaxed">本檢測報告內容僅供參考，旨在透過植物能量支持生活品質與內在平衡，並非旨在診斷、治療或預防任何疾病。精油與營養補充品並非藥物，不能取代專業醫療建議。</p>
+                    </div>
+                    <button id="calcBtn" class="bg-gradient-to-r from-[#d4af37] to-[#b8860b] w-full py-5 rounded-2xl text-white font-bold tracking-widest shadow-xl mb-12">獲取頻率報告</button>
+                    <div id="resultArea" class="hidden mt-10 p-8 bg-white/5 rounded-[2rem] border border-white/10 text-left animate-up">
+                        <div class="text-2xl font-bold text-[#d4af37] mb-2" id="resLevel"></div>
+                        <div class="text-lg text-[#fcc200] mb-8 font-bold border-b border-white/5 pb-4" id="resScoreText"></div>
+                        <div class="psych-insight p-6 bg-[#d4af37]/10 border-l-4 border-[#d4af37] rounded-xl mb-8"><strong id="psychTitle" class="block text-[#d4af37] mb-2 text-lg"></strong><span id="psychContent" class="text-sm opacity-80 leading-relaxed"></span></div>
+                        <div class="text-sm opacity-80 mb-10 leading-loose" id="resDesc"></div>
+                        <div class="grid md:grid-cols-2 gap-10"><div class="rec-card"><h4 class="font-bold text-[#d4af37] border-b border-white/10 pb-2 mb-4 text-sm text-left">🌿 植物頻率調頻</h4><ul id="oilList" class="result-list"></ul></div><div class="rec-card"><h4 class="font-bold text-[#d4af37] border-b border-white/10 pb-2 mb-4 text-sm text-left">🧬 細胞內在支持</h4><ul id="nutriList" class="result-list"></ul></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-offer" class="page-content hidden">
+                <div class="glass-card overflow-hidden">
+                    <div class="bg-[#2e1a47] p-10 text-center"><h2 class="serif text-3xl text-[#fcc200] mb-4">命定入門套組</h2><p class="text-white/80 md:text-2xl font-medium">開啟植物連結的最佳起點</p></div>
+                    <div class="p-10 text-center"><a href="https://www.youngliving.com/vo/#/signup/new-start?sponsorid=39070675&enrollerid=39070675&isocountrycode=TW&culture=zh-TW&type=member" target="_blank" class="bg-gradient-to-r from-[#d4af37] to-[#b8860b] block w-full py-5 rounded-2xl text-white font-bold shadow-2xl mb-6">立即註冊</a><p class="opacity-30 text-[10px]">註冊問題請洽介紹人或 Moirai Studio 窗口</p></div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <footer class="p-24 text-center text-sm opacity-10 tracking-[1.2em] uppercase">MOIRAI FOREST WISDOM</footer>
+
+    <div id="guide-modal" class="fixed inset-0 z-[100] bg-black/90 hidden backdrop-blur-md flex items-center justify-center p-6" onclick="closeModal()"><div class="bg-[#1a1a3a] w-full max-w-xl rounded-3xl p-8 border border-white/10 animate-up" onclick="event.stopPropagation()"><div id="modal-content" class="text-left"></div><button onclick="closeModal()" class="w-full mt-8 py-4 bg-white/5 rounded-xl font-bold text-gray-400">返回清單</button></div></div>
+
+    <script>
+        const switchPage = (p) => {
+            document.querySelectorAll('.page-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`page-${p}`).classList.remove('hidden');
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(`nav-${p}`).classList.add('active');
+            window.scrollTo(0,0);
+        };
+
+        const oils = [
+            { name: "檸檬 (Lemon)", energy: "天真快樂", msg: "抽出此牌顯示你需要陽光的氣息。找回赤子之心！別把生活想得太複雜。現在你需要大笑。", use: "擴香機擴香或稀釋塗抹手腕嗅吸。(具光敏性)", sci: "檸檬醛分子能刺激去甲腎上腺素，提升專注力並振奮情緒。", q: "💬 靈魂提問：如果不考慮後果，哪件「傻事」會讓你最純粹地開心？" },
+            { name: "薄荷 (Peppermint)", energy: "思緒放鬆", msg: "給大腦吹一陣清涼的風。放下煩惱，靈感自然浮現。", use: "掌心搓揉嗅吸，或稀釋塗抹太陽穴與頸後。", sci: "薄荷醇活化冷覺感受器，減輕大腦疲勞感，恢復清晰度。", q: "💬 靈魂提問：你現在腦中循環的煩惱，若像風過，還剩下什麼？" },
+            { name: "薰衣草 (Lavender)", energy: "溫柔包容", msg: "允許自己停歇。修復疲憊的靈魂。", use: "睡前擴香或滴於枕頭角，亦可搭配基底油按摩。", sci: "富含乙酸芳樟酯，平衡自主神經，引導放鬆波。", q: "💬 靈魂提問：你上一次對自己說「辛苦了，你做得很好」是什麼時候？" },
+            { name: "乳香 (Frankincense)", energy: "智慧連結", msg: "往內在尋找答案。回到寧靜中軸與智慧連結。", use: "冥想前塗抹眉心，或護膚時加入一滴協助心境安定。", sci: "含倍半萜類成分，可影響邊緣系統與自律神經，帶來放鬆與情緒穩定效果。", q: "💬 靈魂提問：拋開所有人期待後，你內心深處最渴望的方向是什麼？" },
+            { name: "樂C (R.C.)", energy: "釋放與呼吸", msg: "拿回生命自主權。釋放胸口悶氣。", use: "稀釋塗抹胸口背部，或淋浴時蒸氣嗅吸。", sci: "含桉油醇成分，生理助深呼吸，釋放焦慮。", q: "💬 靈魂提問：生活中哪一件事讓您呼吸變得小心翼翼？" },
+            { name: "悠暢 (DiGize)", energy: "內在通暢", msg: "學習消化生活的酸甜苦辣。", use: "順時針稀釋塗抹於腹部，協助雙向「消化」。", sci: "模擬腸腦軸連結，舒緩因緊張引起的生理緊繃。", q: "💬 靈魂提問：哪一段你不願面對的過去，是現在需要的養分？" },
+            { name: "淨化 (Purification)", energy: "除舊佈新", msg: "掃除心靈的灰塵。現在是最好的斷捨離時機。", use: "滴於棉球放通風口，或嗅吸驅散負能量。", sci: "含香茅醇，改善空間負離子感，發出愉悅信號。", q: "💬 靈魂提問：如果心是一個房間，現在最需丟掉哪個舊習慣？" },
+            { name: "盜賊 (Thieves)", energy: "守護與界線", msg: "建立你的心理防禦界線。", use: "稀釋塗抹腳底，或空間擴香建立防禦屏障。", sci: "溫暖辛香刺激杏仁核強化安全感。", q: "💬 靈魂提問：你是否害怕讓人失望而一直允許別人踩界？" },
+            { name: "勁舒 (PanAway)", energy: "活在當下", msg: "鬆開緊繃發條。你需要徹底放鬆。", use: "按摩肌肉將注意力拉回身體感知。", sci: "含冬青與丁香，冷熱交替感能分散緊繃傳導。", q: "💬 靈魂提問：你此刻身體最緊繃的地方在哪？想告訴你什麼？" },
+            { name: "勇氣 (Valor)", energy: "自信定位", msg: "校準能量，勇敢跨出第一步。", use: "如香水塗抹於脈搏，找回力量。", sci: "平衡腦電圖頻率，提供地基感，協助決策自信。", q: "💬 靈魂提問：如果絕對不會失敗，你最想做的那件事？" },
+            { name: "樂自在 (Stress Away)", energy: "放鬆身心", msg: "放下執著，允許生命自在流動。", use: "高壓時隨身嗅吸，或滴入泡澡水中切斷焦慮。", sci: "調節 GABA 受體，降低心率血壓，天然壓力調節器。", q: "💬 靈魂提問：你需承認哪件事你無力掌控，並試著順其自然？" }
+        ];
+
+        let currentDeg = 0;
+        function spinWheel() {
+            document.getElementById('result-box').classList.add('hidden');
+            currentDeg += (3600 + Math.floor(Math.random()*360));
+            document.getElementById('wheel').style.transform = `rotate(${currentDeg}deg)`;
+            setTimeout(() => {
+                const idx = Math.floor((360 - (currentDeg % 360) + 16.3) / 32.7) % 11;
+                const o = oils[idx];
+                document.getElementById('res-name').innerText = `【${o.name}】`;
+                document.getElementById('res-energy').innerText = `能量標題：${o.energy}`;
+                document.getElementById('res-msg').innerText = o.msg;
+                document.getElementById('res-usage').innerText = o.use;
+                document.getElementById('res-question').innerText = o.q;
+                document.getElementById('res-science').innerText = o.sci;
+                document.getElementById('result-box').classList.remove('hidden');
+                window.scrollTo({ top: document.getElementById('result-box').offsetTop - 120, behavior: 'smooth' });
+            }, 4000);
+        }
+
+        const quizData = ["睡眠品質差？","肌肉、背部常僵硬？","消化容易緊繃沈重？","下午常感到斷電？","免疫力差或過敏反應？","容易為小事焦慮？","最近耐心變差易怒？","難以集中精神？","失去熱情想躲起來？","思考趨向負面？","飲食依賴咖啡因甜食？","報復性熬夜刷手機？","覺得社交訊息很累？","呼吸變淺或屏息？","環境敏感易怒？"];
+        const quizBox = document.getElementById('quiz-container');
+        quizData.forEach((q, i) => {
+            const d = document.createElement('div'); d.className = 'quiz-question';
+            d.innerHTML = `<p class="text-sm mb-4 text-white/90 font-bold">${i+1}. ${q}</p><div class="options-group">${["極少", "偶爾", "有時", "經常", "總是"].map((l,v)=>`<div class="option-item"><input type="radio" name="q${i}" id="q${i}_${v}" value="${v+1}" class="hidden"><label class="option-label" for="q${i}_${v}">${l}</label></div>`).join('')}</div>`;
+            quizBox.appendChild(d);
+        });
+
+        document.getElementById('calcBtn').onclick = () => {
+            let score = 0, count = 0;
+            for(let i=0; i<quizData.length; i++){
+                const rb = document.querySelector(`input[name="q${i}"]:checked`);
+                if(rb){ score += parseInt(rb.value); count++; }
+            }
+            if(count<quizData.length){ alert("填完題目喔！"); return; }
+            const resArea = document.getElementById('resultArea');
+            resArea.classList.remove('hidden');
+            document.getElementById('resScoreText').innerText = `檢測得分：${score} / 75`;
+            const oilUl = document.getElementById('oilList');
+            const nutriUl = document.getElementById('nutriList');
+            oilUl.innerHTML = ''; nutriUl.innerHTML = '';
+
+            if(score <= 35){
+                document.getElementById('resLevel').innerText = "平衡綠燈：靈動的感官濾鏡";
+                document.getElementById('psychTitle').innerText = "💡 心理現象：雞尾酒會效應";
+                document.getElementById('psychContent').innerText = "認知資源充足。";
+                document.getElementById('resDesc').innerText = "能量穩定。建議透過清新植物頻率保持透明感。";
+                updateL('oilList', ["檸檬 - 提振與高頻保持","北非雪松 - 沉穩支持"]);
+                updateL('nutriList', ["寧夏紅 - 機能平衡基礎","BB (Balance & Burn)"]);
+            } else if(score <= 55) {
+                document.getElementById('resLevel').innerText = "警戒黃燈：腦中的白熊迴響";
+                document.getElementById('psychTitle').innerText = "💡 心理現象：白熊效應";
+                document.getElementById('psychContent').innerText = "大腦產生慢性悶燒。";
+                document.getElementById('resDesc').innerText = "建議啟動「滅火與保養」撫平內在頻率。";
+                updateL('oilList', ["薰衣草 - 撫平波動","乳香 - 核心平衡","苦橙葉 - 調節神經壓力"]);
+                updateL('nutriList', ["魚油 (OmegaGize) - 平息發炎","寧夏紅 - 防禦平衡","BC (Balance & Control)"]);
+            } else {
+                document.getElementById('resLevel').innerText = "耗竭紅燈：靈魂的防禦罷工";
+                document.getElementById('psychTitle').innerText = "💡 心理現象：權威議題與耗竭";
+                document.getElementById('psychContent').innerText = "長期過載引發切斷感。";
+                document.getElementById('resDesc').innerText = "警報已響，建議啟動強效調頻。";
+                updateL('oilList', ["勇氣 (Valor) - 重建自我界線頻率","悠樂 (EndoFlex) - 調節頻率驅動力","岩蘭草 (Vetiver) - 落地安全感"]);
+                updateL('nutriList', ["魚油 (OmegaGize) - 修復支持","寧夏紅 - 高頻支持","BC (Balance & Control)"]);
+            }
+            window.scrollTo({ top: resArea.offsetTop - 120, behavior: 'smooth' });
+        };
+        const updateL = (id, items) => { const ul = document.getElementById(id); items.forEach(t=>{ const li=document.createElement('li'); li.innerText=t; ul.appendChild(li); }); };
+
+        const fullGuides = {
+            head: { 
+                title: "思緒中心", 
+                subtitle: "植物能量能透過嗅覺系統進入大腦邊緣系統，有助於放鬆情緒、讓專注回歸自身。",
+                rituals: ["薰衣草 1 滴按摩太陽穴。","薄荷嗅吸，或稀釋按摩頭皮、太陽穴，有助於放鬆。"] 
+            },
+            resp: { 
+                title: "防護中心", 
+                subtitle: "減少外在干擾，穩住自身能量。情緒的出口在腳底，定期清潔環境有助於減少負能量的累積。",
+                rituals: ["盜賊擴香有助於提升環境保護力。","淨化加入清潔劑中打掃環境，也能做為空間能量清理用途。"] 
+            },
+            belly: { 
+                title: "能量轉化", 
+                subtitle: "卡住了?換個思路想想，也許世界會更不同。",
+                rituals: ["悠暢稀釋塗抹腹部，有助能量疏通和腸胃順暢。","檸檬擴香可讓人轉換好心情。"] 
+            },
+            muscle: { 
+                title: "修復行動", 
+                subtitle: "情緒壓力會讓人不自覺緊繃肌肉，適當的放鬆能促進腦源性神經營養因子（BDNF），提升愉悅感。有助於改善情緒、降低焦慮。",
+                rituals: ["勁舒按摩小腿，有助於舒通氣絡，放鬆緊繃的狀態。","勇氣沿著脊椎按摩，有助於能量疏通和平衡。"] 
+            }
+        };
+
+        const guideList = document.getElementById('guide-list');
+        Object.keys(fullGuides).forEach(k => {
+            const g = fullGuides[k];
+            const item = document.createElement('div');
+            item.className = "glass-card p-6 flex justify-between items-center cursor-pointer active:bg-white/5";
+            item.onclick = () => {
+                document.getElementById('modal-content').innerHTML = `
+                    <h3 class="text-xl text-[#d4af37] font-bold mb-2">${g.title}</h3>
+                    <p class="text-sm text-white/50 italic mb-6 leading-relaxed border-b border-white/10 pb-4">${g.subtitle}</p>
+                    <ul class="space-y-3">
+                        ${g.rituals.map(r=>`<li class="text-sm text-white/80 leading-relaxed">• ${r}</li>`).join('')}
+                    </ul>
+                `;
+                document.getElementById('guide-modal').classList.remove('hidden');
+            };
+            item.innerHTML = `<span class="font-bold text-[#d4af37] tracking-wider">${g.title}</span><span class="opacity-20">➔</span>`;
+            guideList.appendChild(item);
+        });
+        function closeModal() { document.getElementById('guide-modal').classList.add('hidden'); }
+    </script>
+</body>
+</html>
